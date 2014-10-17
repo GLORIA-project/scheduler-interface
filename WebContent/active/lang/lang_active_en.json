@@ -1,4 +1,24 @@
 {
+    "batchExp":"GLORIA Batch Experiment",
     "header": "Your active plans",
-    "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis erat ac justo feugiat sagittis sed et lectus. Mauris cursus iaculis varius. Aliquam fringilla facilisis ullamcorper. Vestibulum sed libero elit. Curabitur feugiat metus rutrum massa sagittis tempor. Aliquam luctus sem ut mi sollicitudin, sit amet faucibus nunc gravida. Pellentesque dapibus laoreet orci in vestibulum. Aliquam euismod auctor nulla id laoreet. Aenean congue tincidunt lorem, ut consequat arcu. Etiam dictum tristique aliquam."
+    "intro": "Here your can see the active plans that you have sent, that means those that have been sent and are waiting to be confirmed(accepted) to be sent to any telescope to proceed with the observation of the objects indicated.",
+    "noplans": "You have no active plans yet",
+    "planId":"Id: ",
+    "state":"State: ",
+    "comment":"Comment: ",
+    "description":"Description: ",
+    "object":"Object: ",
+    "filter":"Filter: ",
+    "telescope":"Telescope: ",
+    "obsList":"Observation list",
+    "submitted":"SUBMITTED",
+	"rejected":"REJECTED",
+	"confirmed":"CONFIRMED",
+	"delayed":"DELAYED",
+	"done_complete":"DONE_COMPLETE",
+	"error":"ERROR",
+	"aborted":"ABORTED",
+	"cancelled":"CANCELLED",
+	"inprocess":"IN PROCESS",
+	"done_partial":"DONE_PARTIAL"
 }

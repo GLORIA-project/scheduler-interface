@@ -3,7 +3,18 @@
 	"intro": "We want to offer the possibility of requesting observations to our telescope network, so you can get as soon as possible an image of the object you want. The only thing we ask is that you tell us what you want to observe and we'll find the most appropriate telescope.",
 	"phases": {
 		"one": {
-			"header": "1. Choose an object",
+			"batchExp":"GLORIA Batch Experiment",
+			"header": "1. Select one of the next objects or write down it's name",
+			"headerc": "1. Introduce the object coordinates",
+			"targetToObserve":"Which object do your want to observe?:        ",
+			"targetName":"Object name",
+			"targetRADEC":"Object coordinates",
+			"targetRA":"Must be a value between 0 and 360",
+			"targetDEC":"Must be a value between -90 and 90",
+			"tarRADECRequired":"This field is mandatory if you did not indicate the Object Name!",
+			"tarNameRequired":"This field is mandatory if you did not indicate the Object Coordinates!",
+			"coorFormat":"Decimal number using a dot: [number].[number]", 
+			"dateFormat":"Not yet correct. Use next example: 2014-07-25T23:59:59+02",
 			"objects" : {
 				"M1": {
 					"name": "M1",
@@ -31,7 +42,7 @@
 				},
 				"M31": {
 					"name": "M31",
-					"desc": "Andromeda"
+					"desc": "Andrómeda"
 				},
 				"NGC278": {
 					"name": "NGC278",
@@ -40,12 +51,62 @@
 			}
 		},
 		"two": {
-			"header": "2. Confirm the observation",
-			"expl": "With this confirmation, you are asking GLORIA to find a telescope to take a picture for you. If no telescope can get your picture within 3 days, the plan will be discarded. You can accumulate a maximum of 5 active plans, so we recommend that you choose well before confirming.",
+			"constraints": "2. Constraints",
+			"mandatory":"* Mandatory field",
+			"filters":"Filters",
+			"expose":"Exposition",
+			"expositionTime":"Exposition Time",
+			"expositionTimeRange":"The value must be a number between 0.01 and 1200 seconds",
+			"magnitude":"Magnitude",
+			"magnitudeRange":"The value must be a number between -4 and 21",
+			"snr":"SNR",
+			"snrRange":"The value must be a number between 3 and 100",
+			"expRequired":"This field is mandatory if you did not indicate Magnitude + SNR!",
+			"magsnrRequired":"This field is mandatory if you did not indicate Exposition Time!",
+			"expositonNumber":"Expositions number",
+			"expositionNumberRange":"The value must be a number between 1 and 100",
+			"moonDistance":"Moon Distance",
+			"moonDistanceRange":"The value must be a number between 6 and 180 degrees",
+			"moonAltitude":"Moon Altitude",
+			"moonAltitudeRange":"The value must be a number between 0 and 90 degrees",
+			"degrees":"degrees º",
+			"seconds":"seconds",
+			"targetAltitude":"Object Altitude",
+			"targetAltitudeRange":"The value must be a number between 0 and 90",
+			"airmass":"Airmass",
+			"airmassRange":"The value must be a number between 1 and 30",
+			"showAdvanced":"Advanced Options",
+			"advShow":"Show",
+			"advHide":"Hide",
+			"advanced": {
+				"advanced":"Advanced Options",
+				"notBeforeDate":"Not before date",
+				"notAfterDate":"Not after date",
+				"daysFromNewMoon":"Days from New Moon",
+				"daysFromNewMoonRange":"The value must be a number between 1 and 28",
+				"seeingRange":"The value must be a number between 0.5 and 5",
+				"fovRange":"The value must be a number between 1 and 900",
+				"pixelScale": "Pixel Scale",
+				"prefTelescopes":"Preferred Telescopes",
+				"telescopes":"Watch Telescopes",
+				"multipleSelect": "Maintain Ctrl key pressed to select several telescopes"
+			
+			},
+			"description":"Plan description",
+			"descriptionNotice":"[Set here your plan description]",
+			"continue":"Check and continue"
+			
+		},
+		"three": {
+			"header": "3. Confirm your observation",
+			"expl": "With this confirmation, you are asking GLORIA to find a telescope to take a picture for you. If no telescope can get your picture within 3 days, the plan will be discarded.",
 			"limit": "You've reached the maximum number of active plans.",
+			"error": "There was an error. Please try it later or visit the support website Forum for more info",
 			"success": "The observation has been accepted. Take a look",
 			"here": "here",
-			"confirm": "Confirm"
+			"confirm": "Confirm",
+			"wait":"Please wait, while we receive a reply from the system...",
+			"newplan": "New Plan"
 		}
 	}
 }

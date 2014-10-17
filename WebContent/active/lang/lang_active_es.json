@@ -1,4 +1,24 @@
 {
+    "batchExp":"GLORIA Experimento Observación Planificada",
     "header": "Tus planes activos",
-    "intro": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis erat ac justo feugiat sagittis sed et lectus. Mauris cursus iaculis varius. Aliquam fringilla facilisis ullamcorper. Vestibulum sed libero elit. Curabitur feugiat metus rutrum massa sagittis tempor. Aliquam luctus sem ut mi sollicitudin, sit amet faucibus nunc gravida. Pellentesque dapibus laoreet orci in vestibulum. Aliquam euismod auctor nulla id laoreet. Aenean congue tincidunt lorem, ut consequat arcu. Etiam dictum tristique aliquam."
+    "intro": "Aqui podrás ver todos los planes activos que has enviado, esto es los que han sido enviados y estan a la espera de ser confirmados(aceptados) para enviar a algún telescopio para proceder a la observación de los objetos indicados.",
+    "noplans": "No tienes planes activos",
+    "planId":"Identificador: ",
+    "state":"Estado: ",
+    "comment":"Comentario: ",
+    "description":"Descripción: ",
+    "object":"Objeto: ",
+    "filter":"Filtro: ",
+    "telescope":"Telescopio: ",
+    "obsList":"Lista de Observaciones",
+    "submitted":"ENVIADO",
+	"rejected":"RECHAZADO",
+	"confirmed":"CONFIRMADO",
+	"delayed":"RETRASADO",
+	"done_complete":"COMPLETADO",
+	"error":"ERROR",
+	"aborted":"ABORTADO",
+	"cancelled":"CANCELADO",
+	"inprocess":"EN PROCESO",
+	"done_partial":"COMPLETADO PARCIALMENTE"
 }

@@ -1,4 +1,8 @@
 <link href="new/css/styles.css" rel="stylesheet"></link>
+
+<form class="form-horizontal css-form" id="formid" name="formid" ng-model="formid">
+<h1>{{'new.phases.one.batchExp'|i18n}}</h1>
+
 <div ng-controller="NewObservationController" ng-show="ready">
 	<div class="page-header" style="border: none; margin-bottom: 10px">
 		<div class="row" style="margin-bottom: 0px">
@@ -7,46 +11,460 @@
 	</div>
 	<div class="container">
 		<p>{{'new.intro'|i18n}}</p>
-		<div>
-			<h3 style="margin-bottom: 15px; margin-top: 20px; font-size: 23px">{{'new.phases.one.header'|i18n}}</h3>
-			<ul class="thumbnails">
-				<li ng-repeat="object in objects" class="span3">
-					<div class="experiment-banner pcard" ng-style="object.style"
-						ng-click="objectClicked(object.id)"
-						ng-class="{highCard: objectSelected == object.id}">
-						<h4 style="margin-top: 0px">{{'new.phases.one.objects.' +
-							object.id + '.name'|i18n}}</h4>
-						{{'new.phases.one.objects.' + object.id + '.desc'|i18n}}
+		
+        <fieldset>
+                            
+            
+            <div class="control-group">
+			  <label class="control-label" for="objtoobserve">{{'new.phases.one.targetToObserve'|i18n}}</label>
+			  <div class="controls">
+			    <label class="radio" for="oname">
+			      <input type="radio" name="obj1" id="oname" value="" ng-click="setObj('oname')" onclick="cleanId('ra');cleanId('dec');"/>
+			      {{'new.phases.one.targetName'|i18n}}
+			    </label>
+			    <label class="radio" for="ocoor">
+			      <input type="radio" name="obj1" id="ocoor" value="" ng-click="setObj('ocoor')" onclick="cleanId('objname');"/>
+			      {{'new.phases.one.targetRADEC'|i18n}}
+			    </label>
+			  </div>
+			</div>
+            
+            <div ng-show="obj == 'oname'" class="animate-show">
+	            <div>
+					<h3 style="margin-bottom: 15px; margin-top: 20px; font-size: 23px">{{'new.phases.one.header'|i18n}}</h3>
+				 <label class="control-label" for="objname">{{'new.phases.one.targetName'|i18n}}</label>
+	            <div class="controls">
+	              <input type="text" name="objname" id="objname" ng-model="objname" ng-required="!ra && !dec"/>
+	              <span class="error" ng-show="formid.objname.$error.required" style="color:red;">{{'new.phases.one.tarNameRequired'|i18n}}</span>
+	            </div><br/>
+					<ul class="thumbnails">
+						<li ng-repeat="object in objects" class="span3">
+							<div class="experiment-banner pcard" ng-style="object.style"
+								ng-click="objectClicked(object.id)"
+								ng-class="{highCard: objectSelected == object.id}">
+								<h4 style="margin-top: 0px">{{'new.phases.one.objects.' +
+									object.id + '.name'|i18n}}</h4>
+								{{'new.phases.one.objects.' + object.id + '.desc'|i18n}}
+							</div>
+						</li>
+					</ul>
+				</div>
+	           	            
+            </div>
+            
+            <div ng-show="obj == 'ocoor'" class="animate-show">
+            <h3 style="margin-bottom: 15px; margin-top: 20px; font-size: 23px">{{'new.phases.one.headerc'|i18n}}</h3>
+	            <label class="control-label" for="coordinates">{{'new.phases.one.targetRADEC'|i18n}}</label>
+	            <div class="controls">
+	              <div style="float:left;">RA(J2000)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	              <!-- input type="text" name="ra" id="ra" value="" ng-model="ra" ng-required="!objname" ng-pattern="/^([0-1]?[0-9]|[0-2]{1}[0-3]{1})\.[0-9]{1,10}$/" placeholder="xx.xx"/-->
+	              <input type="number" name="ra" id="ra" value="" ng-model="ra" ng-required="!objname" step="0.0000000001" min="0" max="360" placeholder="[0 , 360]"/>
+	              <span class="error" ng-show="formid.ra.$error.min || formid.ra.$error.max" style="color:red;">{{'new.phases.one.targetRA'|i18n}}</span>
+	              <span class="error" ng-show="formid.ra.$error.required" style="color:red;">{{'new.phases.one.tarRADECRequired'|i18n}}</span>	              
+	              <span class="error" ng-show="formid.ra.$error.pattern" style="color:red;">{{'new.phases.one.coorFormat'|i18n}}</span>
+	              <br/>
+	              <div style="float:left;">DEC(J2000)&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	              <!--input type="text" name="dec" id="dec" value="" ng-model="dec" ng-required="!objname" ng-pattern="/^[\+|\-]?([0][0-9]|[0-8][0-9])\.[0-9]{1,10}$/" placeholder="xx.xx"/-->
+	              <input type="number" name="dec" id="dec" value="" ng-model="dec" ng-required="!objname" step="0.0000000001" min="-90" max="90" placeholder="[-90 , 90]"/>
+	              <span class="error" ng-show="formid.dec.$error.min || formid.dec.$error.max" style="color:red;">{{'new.phases.one.targetDEC'|i18n}}</span>
+	              <span class="error" ng-show="formid.dec.$error.required" style="color:red;">{{'new.phases.one.tarRADECRequired'|i18n}}</span>
+	              <span class="error" ng-show="formid.dec.$error.pattern" style="color:red;">{{'new.phases.one.coorFormat'|i18n}}</span> 
+	              </div>
+            </div>
+            
+<div ng-show="objectSelected != null || objname != null" class="animate-show">
+			<h3 style="margin-bottom: 15px; margin-top: 20px; font-size: 23px">{{'new.phases.two.constraints'|i18n}}</h3>            
+            
+            <label class="control-label" for="description">{{'new.phases.two.description'|i18n}}</label>
+            <div class="controls">
+              <textarea style="width:80%;" ng-model="description" name="description" id="description" value="" rows="5" cols="100" placeholder="{{'new.phases.two.descriptionNotice'|i18n}}" required></textarea>
+              <span class="error" ng-show="formid.description.$error.required" style="color:red;">{{'new.phases.two.mandatory'|i18n}}</span><br> 
+            </div>
+            
+            <br/>
+            
+            <label class="control-label" for="filter">{{'new.phases.two.filters'|i18n}}</label>
+            <div class="controls" ng-controller="FilterCtrl">
+	                    <!-- select id="filter" name="filter" ng-multiple="true" ng-model="filter" ng-options="c.name for c in filters" multiple style="background:grey;"-->
+					    <select form="formid" id="filter" name="filter" ng-model="filter" ng-options="c.name as c.name for c in filters" style="background:grey;" required>
+					    <option value="" selected></option>  
+					    </select>
+					    <!-- pre ng-bind-template="{{filter}}!"></pre-->
+					    <span class="error" ng-show="formid.filter.$error.required" style="color:red;">{{'new.phases.two.mandatory'|i18n}}</span><br>
+				<input type="hidden" ng-list ng-model="filter" value="{{filter}}" name="filter_list" id="filter_list"/>
+			</div>
+			<br/>
+            
+            
+            
+            
+             <div class="control-group">
+			  <label class="control-label" for="radiosExpTimInf">{{'new.phases.two.expose'|i18n}}</label>
+			  <div class="controls">
+			    <label class="radio" for="expTime">
+			      <input type="radio" name="expTimInf1" id="expTime" value="" onclick="cleanId('magnitude');cleanId('snr');" ng-click="setExpTimInf('expTime');magnitude='';snr=''"/>
+			      {{'new.phases.two.expositionTime'|i18n}}
+			    </label>
+			    <label class="radio" for="magsnr">
+			      <input type="radio" name="expTimInf1" id="magsnr" value=""  onclick="cleanId('expositiontime');" ng-click="setExpTimInf('magsnr');expositiontime=''"/>
+			      {{'new.phases.two.magnitude'|i18n}} + {{'new.phases.two.snr'|i18n}}
+			    </label>
+			  </div>
+			</div>
+			
+			<div ng-show="expTimInf == 'expTime'" class="animate-show">
+	            <label class="control-label" for="expositiontime">{{'new.phases.two.expositionTime'|i18n}}</label>
+	            <div class="controls">
+	              <input type="number" step="0.01" min="0.01" max="1200" placeholder="[0.01 , 1200] {{'new.phases.two.seconds'|i18n}}" ng-model="expositiontime" name="expositiontime" id="expositiontime" value="" ng-required="!magnitude && !snr" onclick="cleanId('magnitude');cleanId('snr');"/>
+	              <span ng-show="formid.expositiontime.$error.min || formid.expositiontime.$error.max" style="color:red;">
+      			   {{'new.phases.two.expositionTimeRange'|i18n}}</span>
+	              <span class="error" ng-show="formid.expositiontime.$error.required" style="color:red;">{{'new.phases.two.expRequired'|i18n}}</span>
+	            </div>
+            </div>
+            
+            <div ng-show="expTimInf == 'magsnr'" class="animate-show">
+	            <label class="control-label" for="magnitude">{{'new.phases.two.magnitude'|i18n}}</label>
+	            <div class="controls">
+	              <input type="number" min="-4" max="21" placeholder="[-4 , 21]" ng-model="magnitude" name="magnitude" id="magnitude" value="" ng-required="!expositiontime" onclick="cleanId('expositiontime');" />
+	              <span ng-show="formid.magnitude.$error.min || formid.magnitude.$error.max" style="color:red;">
+      			   {{'new.phases.two.magnitudeRange'|i18n}}</span>
+	              <span class="error" ng-show="formid.magnitude.$error.required" style="color:red;">{{'new.phases.two.magsnrRequired'|i18n}}</span>
+	            </div>
+	            <label class="control-label" for="snr">{{'new.phases.two.snr'|i18n}}</label>
+	            <div class="controls">
+	              <input type="number" min="3" max="100" placeholder="[3 , 100]" ng-model="snr" name="snr" id="snr" value="" ng-required="!expositiontime" onclick="cleanId('expositiontime');" />
+	              <span ng-show="formid.snr.$error.min || formid.snr.$error.max" style="color:red;">
+      			   {{'new.phases.two.snrRange'|i18n}}</span>
+	              <span class="error" ng-show="formid.snr.$error.required" style="color:red;">{{'new.phases.two.magsnrRequired'|i18n}}</span>
+	            </div>
+            </div>
+      
+          
+          <br/><br/>
+           <!--label class="control-label" for="repeatduration">Duración de la exp.</label>
+            <div class="controls">
+              <input type="text"  name="repeatduration" id="repeatduration" value="34"/>
+            </div-->
+            <label class="control-label" for="repeatcount">{{'new.phases.two.expositonNumber'|i18n}}</label>
+            <div class="controls">
+              <input type="number" min="1" max="100" ng-model="repeatcount" name="repeatcount" id="repeatcount" ng-init="repeatcount=1" required/>
+              <span ng-show="formid.repeatcount.$error.min || formid.repeatcount.$error.max" style="color:red;">
+      			   {{'new.phases.two.expositionNumberRange'|i18n}}</span>
+              <span class="error" ng-show="formid.repeatcount.$error.required" style="color:red;">{{'new.phases.two.mandatory'|i18n}}</span>
+            </div>
+            
+          <div class="control-group">
+           
+            <label class="control-label" for="moondistance">{{'new.phases.two.moonDistance'|i18n}}</label>
+            <div class="controls">
+              <input type="number" min="6" max="180" placeholder="[6 , 180] {{'new.phases.two.degrees'|i18n}}" ng-model="moondistance" name="moondistance" id="moondistance" value="">
+              
+              <span ng-show="formid.moondistance.$error.min || formid.moondistance.$error.max" style="color:red;">
+      			   {{'new.phases.two.moonDistanceRange'|i18n}}</span>
+            </div>
+            <label class="control-label" for="moonaltitude">{{'new.phases.two.moonAltitude'|i18n}}</label>
+            <div class="controls">
+              <input type="number" min="0" max="90" placeholder="[0 , 90] {{'new.phases.two.degrees'|i18n}}" ng-model="moonaltitude" name="moonaltitude" id="moonaltitude" value=""/>
+              <span ng-show="formid.moonaltitude.$error.min || formid.moonaltitude.$error.max" style="color:red;">
+      			   {{'new.phases.two.moonAltitudeRange'|i18n}}</span>
+            </div>
+                      
+            
+            <div class="control-group">
+			  <label class="control-label" for="radiosTarAlt">{{'new.phases.two.targetAltitude'|i18n}}</label>
+			  <div class="controls">
+			    <label class="radio" for="tarAlt">
+			      <input type="radio" name="tarAltInf1" id="tarAlt" value="" ng-click="setTarAltInf('tarAlt')" onclick="cleanId('airmass');" />
+			      {{'new.phases.two.targetAltitude'|i18n}}
+			    </label>
+			    <label class="radio" for="airm">
+			      <input type="radio" name="tarAltInf1" id="airm" value="" ng-click="setTarAltInf('airm')" onclick="cleanId('targetaltitude');" />
+			      {{'new.phases.two.airmass'|i18n}}
+			    </label>
+			  </div>
+			</div>
+            
+            <div ng-show="tarAltInf == 'tarAlt'" class="animate-show">
+              <label class="control-label" for="targetaltitude">{{'new.phases.two.targetAltitude'|i18n}}</label>
+              <div class="controls">
+              	<input type="number" min="1" max="90" placeholder="[0 , 90] {{'new.phases.two.degrees'|i18n}}" ng-model="targetaltitude" name="targetaltitude" id="targetaltitude" value="" />
+              	<span ng-show="formid.targetaltitude.$error.min || formid.targetaltitude.$error.max" style="color:red;">
+      			   {{'new.phases.two.targetAltitudeRange'|i18n}}</span>
+              </div>
+            </div>
+            
+            <div ng-show="tarAltInf == 'airm'" class="animate-show">
+              <label class="control-label" for="airmass">{{'new.phases.two.airmass'|i18n}}</label>
+              <div class="controls">
+              	<input type="number" min="1" max="30" placeholder="[1 , 30]" ng-model="airmass" name="airmass" id="airmass" value="" />
+              	<span ng-show="formid.airmass.$error.min || formid.airmass.$error.max" style="color:red;">
+      			   {{'new.phases.two.airmassRange'|i18n}}</span>
+              </div>
+            </div>
+          
+          </div>
+          
+          <div class="control-group">
+			  <label class="control-label" for="button1id" style="margin-right: 20px;">{{'new.phases.two.showAdvanced'|i18n}}</label>
+			  <div>
+			    <button id="advancedshow" name="advancedshow" class="btn btn-info" ng-click="advanced=true">{{'new.phases.two.advShow'|i18n}}</button>
+			    <button id="advancedhide" name="advancedhide" class="btn btn-danger" ng-click="advanced=false">{{'new.phases.two.advHide'|i18n}}</button>
+			  </div>
+		  </div>
+		  <br/>
+		  <div class="control-group">
+            <!--  div class="controls">
+              <input type="text" ng-model="user" name="user" id="user" value="" readonly/>
+            </div>
+            
+            <div class="controls">
+              <input type="hidden" ng-model="gpassword" name="gpassword" id="gpassword" value="" readonly/>
+            </div-->
+            
+            <div class="controls">
+              <input type="hidden" name="priority" id="priority" value="100"/>
+            </div>
+            
+                      
+            <div class="controls">
+              <input type="hidden" name="type" id="type" value="OBSERVATION"/>
+            </div>
+      	 </div><br/>
+          
+          <div ng-show="advanced" class="animate-show alert alert-info">
+	          <h2>{{'new.phases.two.advanced.advanced'|i18n}}</h2><br/>
+	          <div class="control-group">
+	            <label class="control-label" for="notbeforedate">{{'new.phases.two.advanced.notBeforeDate'|i18n}}</label>
+	            <div class="controls">
+	              <!-- input type="datetime-local" name="notbeforedate" id="notbeforedate" ng-model="notbefdate" placeholder="yyyy-MM-ddTHH:mm" min="2014-07-01T00:00" max="2015-01-01T00:00"/-->
+	              <input type="text" ng-pattern="/^([2][01]|[1][6-9])\d{2}-([0]\d|[1][0-2])-([0-2]\d|[3][0-1])([T]([0-1]\d|[2][0-3])(\:[0-5]\d){2})[\+|\-]([0][0-9]|[1][0-4])$/" name="notbeforedate" id="notbeforedate" ng-model="notbefdate" placeholder="yyyy-MM-ddTHH:mm:ss[+/-]ZZ"/>
+	              <span class="error" ng-show="formid.notbeforedate.$error.pattern" style="color:red;">{{'new.phases.one.dateFormat'|i18n}}</span>
+	            </div>
+	            <br/>
+	            <label class="control-label" for="notafterdate">{{'new.phases.two.advanced.notAfterDate'|i18n}}</label>
+	            <div class="controls">
+	              <input type="text" ng-pattern="/^([2][01]|[1][6-9])\d{2}-([0]\d|[1][0-2])-([0-2]\d|[3][0-1])([T]([0-1]\d|[2][0-3])(\:[0-5]\d){2})[\+|\-]([0][0-9]|[1][0-4])$/" name="notafterdate" id="notafterdate" ng-model="notaftdate" placeholder="yyyy-MM-ddTHH:mm:ss[+/-]ZZ"/>
+	              <span class="error" ng-show="formid.notafterdate.$error.pattern" style="color:red;">{{'new.phases.one.dateFormat'|i18n}}</span>
+	            </div> 
+	            <br/>
+	            <label class="control-label" for="daysfromnewmoon">{{'new.phases.two.advanced.daysFromNewMoon'|i18n}}</label>
+	            <div class="controls">
+	              <input type="number" min="1" max="28" placeholder="[1 , 28]" name="daysfromnewmoon" id="daysfromnewmoon" ng-model="daysfnmoon"/>
+	              <span ng-show="formid.daysfromnewmoon.$error.min || formid.daysfromnewmoon.$error.max" style="color:red;">
+      			   {{'new.phases.two.advanced.daysFromNewMoonRange'|i18n}}</span>
+	            </div>
+	            <br/>
+	            <!-- label class="control-label" for="pixelscale">{{'new.phases.two.advanced.pixelScale'|i18n}}</label>
+	            <div class="controls">
+	              <input type="number" name="pixelscale_min" id="pixelscale_min" ng-model="pixscmin" ng-required="pixscmax"  placeholder="MIN [0.1 , 200]" min="0.1" max="200" step="0.1" value="0"/>arcsec/pix
+	              <span ng-show="formid.pixelscale_min.$error.min" style="color:red;">
+      			   El valor ha de ser un número comprendido entre 0.1 y 200</span>
+	              <input type="number" name="pixelscale_max" id="pixelscale_max" ng-model="pixscmax" ng-required="pixscmin"  placeholder="MAX [0.1 , 200]" min="0.1" max="200" step="0.1" value="0"/>arcsec/pix
+	              <span ng-show="formid.pixelscale_max.$error.max" style="color:red;">
+      			   El valor ha de ser un número comprendido entre 0.1 y 200</span>
+	            </div-->
+	            <br/>
+	            <label class="control-label" for="seeing">Seeing</label>
+	            <div class="controls">
+	              <input type="number" step="0.1" min="0.5" max="5" placeholder="MAX [0.5 , 5] arcsec" name="seeing" id="seeing" ng-model="seeing" value=""/>
+	              <span ng-show="formid.seeing.$error.min || formid.seeing.$error.max" style="color:red;">
+      			   {{'new.phases.two.advanced.seeingRange'|i18n}}</span>
+	            </div>
+	            <br/>
+	            <label class="control-label" for="fov">FoV</label>
+	            <div class="controls">
+	              <input type="number" min="1" max="900" placeholder="MAX [1 , 900] arcmin" name="fov" id="fov" ng-model="fov" value=""/>
+	              <span ng-show="formid.fov.$error.min || formid.fov.$error.max" style="color:red;">
+      			   {{'new.phases.two.advanced.fovRange'|i18n}}</span>
+	            </div>
+	            <br/>
+	                <label class="control-label" for="prefTel">{{'new.phases.two.advanced.prefTelescopes'|i18n}}</label>
+	                
+		            <div class="controls" ng-controller="TelsCtrl">
+			                   <select id="prefTel" name="prefTel" ng-multiple="true" ng-model="prefTel" ng-options="c.id as c.name for c in tels" multiple style="background:grey;">
+						       </select>
+						       <!-- pre ng-bind-template="{{prefTel}}!"></pre-->
+					<b><u><a href="http://gloria-project.eu/about-es/telescopes-es/" target="blank">{{'new.phases.two.advanced.telescopes'|i18n}}</a></u></b>
+										
+					<input type="hidden" ng-list ng-model="prefTel" value="{{prefTel}}" name="tels_list" id="tels_list"/>
 					</div>
-				</li>
-			</ul>
-		</div>
-		<div ng-show="objectSelected != null" class="animate-show">
-			<h3 style="margin-bottom: 15px; font-size: 23px">{{'new.phases.two.header'|i18n}}</h3>
+	                        
+	            
+				
+	          <span>{{'new.phases.two.advanced.multipleSelect'|i18n}}</span>
+	          </div>
+          </div>
+      
+          
+      <div ng-show="!formid.$valid" class="animate-show">    
+       <button type="submit" class="btn btn-reg">{{'new.phases.two.continue'|i18n}}</button>
+      </div>
+ </div>	
+        </fieldset>
+        
+     </div>
+
+
+		<div ng-show="formid.$valid" class="animate-show">
+			<h3 style="margin-bottom: 15px; font-size: 23px">{{'new.phases.three.header'|i18n}}</h3>
 			<div>
-				<p>{{'new.phases.two.expl'|i18n}}</p>
+				<p>{{'new.phases.three.expl'|i18n}}</p>
 			</div>
 			<div style="margin-top: 15px" align="center">
-				<button style="padding: 10px; padding-left: 15; padding-right: 15px"
-					class="btn btn-reg" ng-click="request()">{{'new.phases.two.confirm'|i18n}}</button>
+			
+			<button type="submit" ng-init="buttSend=false" ng-disabled="buttSend" class="btn btn-reg" onclick="ConvertFormToJSON(document.getElementById('formid'))" ng-click="sendObs();buttSend=true">{{'new.phases.three.confirm'|i18n}}</button>
+						
 			</div>
 			<div align="center"
-				style="padding-top: 20px; font-size: 0.9em; line-height: 15px; color: #D3AF7B"
+				style="padding-top: 20px; font-size: 1.3em; line-height: 15px; color: #D3AF7B;"
 				class="animate-show" ng-show="requestSuccess">
 
 				<div style="padding-left: 20px">
 					<i class="icon-ok"
-						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.two.success'|i18n}}<a style="color: #D3AF7B" href="#/active"> {{'new.phases.two.here'|i18n}}</a>
+						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.three.success'|i18n}}<a style="color: #D3AF7B" href="#/active"> {{'new.phases.three.here'|i18n}}</a>
+				</div>
+				<div style="padding-left: 20px">
+					<button class="btn btn-reg" onclick="location.reload()">{{'new.phases.three.newplan'|i18n}}</button>
 				</div>
 			</div>
 			<div align="center"
-				style="padding-top: 20px; font-size: 0.9em; line-height: 15px; color: #D3AF7B"
+				style="padding-top: 20px; font-size: 1.3em; line-height: 15px; color: red; background-color: black;"
 				class="animate-show" ng-show="requestLimit">
 				<div style="padding-left: 20px">
 					<i class="icon-remove"
-						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.two.limit'|i18n}}					
+						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.three.limit'|i18n}}					
+				</div>
+			</div>
+			<div align="center"
+				style="padding-top: 20px; font-size: 1.3em; line-height: 15px; color: red; background-color: black;"
+				class="animate-show" ng-show="requestError">
+				<div style="padding-left: 20px">
+					<i class="icon-remove"
+						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.three.error'|i18n}}					
+				</div>
+			</div>
+			<div align="center"
+				style="padding-top: 20px; font-size: 1.3em; line-height: 15px; color: #D3AF7B; background-color: black;"
+				class="animate-show" ng-show="wait">
+				<div style="padding-left: 20px">
+					<i class="icon-time"
+						style="background-color: #D3AF7B; margin-right: 5px; margin-top: 2px"></i>{{'new.phases.three.wait'|i18n}}					
+				</div><br/>
+				<div class="progress progress-striped active" style="width:300px;">
+				  <div class="bar" style="width: 90%;"></div>
 				</div>
 			</div>
 		</div>
-	</div>
+
+
 </div>
+<input type="hidden" name="plan" id="plan"/>
+</form>
+
+
+
+<script>
+function ConvertFormToJSON(form){
+    	
+	var array = jQuery(form).serializeArray();
+    var json = {};
+    jQuery.each(array, function() { //getting form values
+        json[this.name] = this.value || ''; 
+    });
+    
+    //var filters_array = [];
+    
+    //alert(JSON.parse(json.filter_list)[0].name);
+    //jQuery.each(JSON.parse(json.filter_list), function() { //getting filers values
+    	//filters_array.push("\"" + this.name + "\"");
+    	//alert(this.name);
+    //});
+    
+    //alert(json);
+    
+
+    var tels_pref = "";
+    
+    if (json.tels_list == ""){
+    	tels_pref= "\"\"";
+    }else{
+    	tels_pref= json.tels_list;
+    }
+        
+       
+   var target=""; 
+   if (json.objname != "") {
+	    target = "\"objName\": " + "\"" + json.objname + "\"" ; 
+   }else if (json.ra != "" && json.dec != ""){
+	    target = "\"coordinates\": { \"j2000\": {\"ra\": \"" + json.ra  + "\", \"dec\": \"" + json.dec + "\"}}";
+   }
+       
+   var expTimeInfo="";
+   if (json.expositiontime != "") {
+	   expTimeInfo = "{\"expositionTime\": \"" + json.expositiontime + "\"}" ; 
+   }else if (json.magnitude != "" && json.snr != ""){
+	   expTimeInfo = "{\"magnitude\": \"" + json.magnitude  + "\", \"snr\": \"" + json.snr + "\"}";
+   }else{
+	   expTimeInfo ="\"\"";
+   }
+   
+   var targetAlt="";
+   if (json.targetaltitude != "") {
+	   targetAlt = "{\"targetAltitude\": " + "\"" + json.targetaltitude + "\"}" ; 
+   }else if (json.airmass != ""){
+	  targetAlt = "{\"airmass\": " + "\"" + json.airmass + "\"}" ;
+   }else{
+	  targetAlt ="\"\"";
+   }
+  
+   /*var pixEsc = "";
+   if (json.pixelscale_min != "" && json.pixelscale_max != ""){
+	   pixEsc = "[" + json.pixelscale_min + "," + json.pixelscale_max + "]";
+	   }else{
+		   pixEsc="\"\"";
+	   }
+   */
+   
+   
+    
+   /***************************** CONSTRAINTS ************************************/   
+    var visibility = "\"moonDistance\": \"" + json.moondistance + "\", \"moonAltitude\": \"" + json.moonaltitude + "\", \"targetAltitudeInfo\": " + targetAlt  ; 
+    var date ="\"notBeforeDate\": \"" + json.notbeforedate + "\", \"notAfterDate\": \"" + json.notafterdate + "\", \"daysFromNewMoon\": \"" + json.daysfromnewmoon + "\"" ;        
+    //var hardware ="\"pixelScale\": " + pixEsc + ", \"seeing\": \"" + json.seeing + "\", \"foV\": \"" + json.fov + "\", \"preferredTelescope\": " + tels_pref ; 
+    var hardware ="\"seeing\": \"" + json.seeing + "\", \"foV\": \"" + json.fov + "\", \"preferredTelescope\": " + tels_pref ;
+    var constraints = "\"constraints\": {" + visibility + ", " + date + ", " + hardware + "}";   
+    
+   
+    /***************************** INSTRUCTIONS ************************************/
+    var target = "\"target\": {" + target + "}";
+    //var loop = "\"loop\": {\"target\": {" + target + "}" + ", \"repeatCount\": " + json.repeatcount  + " ,\"repeatDuration\": " + json.repeatduration + "}";
+    var expose = "\"expose\": {\"exposureTimeInfo\":  "+ expTimeInfo +", \"filter\": \"" + json.filter_list  + "\", \"repeatCount\": \"" + json.repeatcount  + "\"}";
+    //var instructions = "\"instructions\": {" + target + ", " + loop + ", " + expose + "}";
+    var instructions = "\"instructions\": {" + target + ", " + expose + "}";
+    
+    /***************************** METADATA ************************************/
+    var uuid = "\"uuid\": \"" + json.uuid + "\"";
+    //var user = "\"user\": \"" + json.user + "\"";
+    var priority = "\"priority\": \"" + json.priority + "\"";
+    var description = "\"description\": \"" + json.description + "\"";
+    var type = "\"type\": \"" + json.type + "\"";
+    var metadata = "\"metadata\": {" + priority + ", " + description + ", " + type + "}";
+    
+    
+    /***************************** PLAN ************************************/
+    var plan = "{ " + constraints + "," + instructions  + "," + metadata + "}"; 
+    
+    
+    document.getElementById('plan').value=plan;
+       
+}
+
+
+function cleanId(id){
+	document.getElementById(id).value="";
+	document.getElementById(id).style="disabled";
+}
+
+</script>
+
+<div style="float:right"><font style="font-size:12px">Version 0.6</font></div>

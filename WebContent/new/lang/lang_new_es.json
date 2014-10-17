@@ -3,7 +3,18 @@
 	"intro": "Queremos ofrecerte la posibilidad de solicitar observaciones a nuestra red de telescopios, de forma que puedas conseguir lo antes posible una imagen del objeto que quieras. Lo único que te pedimos es que nos digas qué quieres observar y nosotros buscaremos el telescopio más apropiado.",
 	"phases": {
 		"one": {
-			"header": "1. Elige un objeto",
+			"batchExp":"GLORIA Experimento Observación Planificada",
+			"header": "1. Haz click en uno de los siguientes objetos o escribe su nombre",
+			"headerc": "1. Introduce las coordenadas del objeto",
+			"targetToObserve":"Que objeto quieres observar?:        ",
+			"targetName":"Nombre del objeto",
+			"targetRADEC":"Coordenadas del objeto",
+			"targetRA":"Ha de ser un valor entre 0 y 360",
+			"targetDEC":"Ha de ser un valor entre -90 y 90",
+			"tarRADECRequired":"Este campo es obligatorio si no has indicado el Nombre del objeto!",
+			"tarNameRequired":"Este campo es obligatorio si no has indicado las Coordenadas!",
+			"coorFormat":"Número decimal usando un punto: [número].[número]", 
+			"dateFormat":"Aún no es correcta. Utiliza este ejemplo: 2014-07-25T23:59:59+02",
 			"objects" : {
 				"M1": {
 					"name": "M1",
@@ -40,12 +51,62 @@
 			}
 		},
 		"two": {
-			"header": "2. Confirma la observación",
-			"expl": "Cuando confirmas una observación estás solicitando a GLORIA que encuentre un telescopio de la red para tomar una imagen para ti. Si ningún telescopio puede conseguir tu imagen en un plazo de 3 días, el plan será descartado. Puedes acumular un máximo de 5 planes activos, por lo que te recomendamos que elijas bien antes de confirmar.",
+			"constraints": "2. Restricciones",
+			"mandatory":"* Campo obligatorio",
+			"filters":"Filtros",
+			"expose":"Exposición",
+			"expositionTime":"Tiempo de Exposición",
+			"expositionTimeRange":"El valor ha de ser un número comprendido entre 0.01 y 1200 segundos",
+			"magnitude":"Magnitud",
+			"magnitudeRange":"El valor ha de ser un número comprendido entre -4 y 21",
+			"snr":"SNR",
+			"snrRange":"El valor ha de ser un número comprendido entre 3 y 100",
+			"expRequired":"Este campo es obligatorio si no has indicado Magnitud + SNR!",
+			"magsnrRequired":"Este campo es obligatorio si no has indicado Tiempo de Exposición",
+			"expositonNumber":"Número de exposiciones",
+			"expositionNumberRange":"El valor ha de ser un número comprendido entre 1 y 100",
+			"moonDistance":"Distancia a la Luna",
+			"moonDistanceRange":"El valor ha de ser un número comprendido entre 6 y 180 grados",
+			"moonAltitude":"Altura de la Luna",
+			"moonAltitudeRange":"El valor ha de ser un número comprendido entre 0 y 90 grados",
+			"degrees":"grados º",
+			"seconds":"segundos",
+			"targetAltitude":"Altitud del Objeto",
+			"targetAltitudeRange":"El valor ha de ser un número comprendido entre 0 y 90",
+			"airmass":"Masa de Aire",
+			"airmassRange":"El valor ha de ser un número comprendido entre 1 y 30",
+			"showAdvanced":"Opciones Avanzadas",
+			"advShow":"Mostrar",
+			"advHide":"Ocultar",
+			"advanced": {
+				"advanced":"Opciones Avanzadas",
+				"notBeforeDate":"No antes de la fecha",
+				"notAfterDate":"No despues de la fecha",
+				"daysFromNewMoon":"Días desde la Luna Nueva",
+				"daysFromNewMoonRange":"El valor ha de ser un número comprendido entre 1 y 28",
+				"seeingRange":"El valor ha de ser un número comprendido entre 0.5 y 5",
+				"fovRange":"El valor ha de ser un número comprendido entre 1 y 900",
+				"pixelScale": "Escala de Pixel",
+				"prefTelescopes":"Telescopios preferidos",
+				"telescopes":"Ver Telescopios",
+				"multipleSelect": "Mantenga pulsada la tecla Ctrl para seleccionar varios telescopios"
+			
+			},
+			"description":"Descripción del plan",
+			"descriptionNotice":"[Añade aquí una descripción de tu plan]",
+			"continue":"Validar y Continuar"
+			
+		},
+		"three": {
+			"header": "3. Confirma la observación",
+			"expl": "Cuando confirmas una observación estás solicitando a GLORIA que encuentre un telescopio de la red para tomar una imagen para ti. Si ningún telescopio puede conseguir tu imagen en un plazo de 3 días, el plan será descartado.",
 			"limit": "Has alcanzado el máximo número permitido de planes activos.",
-			"success": "La observación ha sido aceptada. Echa un vistazo",
+			"error": "Ha sucedido un error. Por favor intentalo mas tarde o consulta el foro de soporte para más información",
+			"success": "El plan de observación ha sido aceptado. Echa un vistazo",
 			"here": "aquí",
-			"confirm": "Confirmar"
+			"confirm": "Confirmar",
+			"wait":"Por favor, espera mientras obtenemos una respuesta del sistema...",
+			"newplan": "Nuevo Plan"
 		}
 	}
 }

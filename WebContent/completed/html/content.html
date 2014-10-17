@@ -1,6 +1,7 @@
 <link href="issues/css/styles.css" rel="stylesheet"></link>
 <link href="completed/css/styles.css" rel="stylesheet"></link>
 <div ng-controller="CompletedController" ng-show="ready">
+	<h1>{{'completed.batchExp'|i18n}}</h1>
 	<div class="page-header" style="border: none; margin-bottom: 10px">
 		<div class="row" style="margin-bottom: 0px">
 			<h2 style="margin-left: 18px">{{'completed.header'|i18n}}</h2>
@@ -9,68 +10,168 @@
 	<div class="container">
 		<p>{{'completed.intro'|i18n}}</p>
 		<div style="margin-top: 30px">
-			<div ng-show="completed.length==0" align="center"
+			<div ng-show="completedPlans.length==0" align="center"
 				style="width: 30%; margin-left: 35%;"
 				class="animate-show alert alert-g">
 				{{'completed.noplans'|i18n}}</div>
 			<div class="accordion animate-show" id="accordion1">
-				<div ng-repeat="plan in completed" class="accordion-group">
-					<div tooltip-popup-delay="500" tooltip="{{plan.id}}"
+				<div ng-repeat="plan in completedPlans" class="accordion-group">
+					<div tooltip-popup-delay="500" tooltip="{{plan.stateInfo.state}}"
 						tooltip-placement="left" class="accordion-heading"
-						style="overflow: hidden">
+						style="overflow: hidden">  
+						<br/>
 						<a style="float: left" class="accordion-toggle"
 							data-toggle="collapse" data-parent="#accordion1"
-							ng-href="#collapse1{{$index}}" target="_self">{{plan.opInfo.description}}</a>
-						<p style="float: right; margin: 0px; padding: 8px">{{plan.publishDate
-							|date: medium}}</p>
+							ng-href="#collapse1{{$index}}" target="_self"><strong>-</strong>{{'completed.description'|i18n}} {{plan.description}} <span class="icon-arrow-right icon-white"></span>
+							
+							<font ng-switch="plan.stateInfo.state"> 
+								    <font ng-switch-when="REJECTED" >{{'completed.rejected'|i18n}}</font>
+								    <font ng-switch-when="DONE_COMPLETE">{{'completed.done_complete'|i18n}}</font>
+								    <font ng-switch-when="ERROR">{{'completed.error'|i18n}}</font>
+								    <font ng-switch-when="ABORTED">{{'completed.aborted'|i18n}}</font>
+								    <font ng-switch-when="CANCELLED">{{'completed.cancelled'|i18n}}</font>
+								    <font ng-switch-when="DONE">{{'completed.done'|i18n}}</font>
+								    <font ng-switch-when="DONE_PARTIAL">{{'completed.done_partial'|i18n}}</font>
+							</font>
+
+						</a>
 					</div>
 					<div id="collapse1{{$index}}" class="accordion-body collapse in">
 						<div class="accordion-inner">
+							<div style="color:grey;">
 							<div class="row">
-								<div class="span2">
-									<p>
-										<strong>Object</strong> {{plan.opInfo.object}}
-									</p>
-								</div>
-								<div class="span2">
-									<p>
-										<strong>State</strong> {{plan.state}}
-									</p>
-								</div>
-								<div class="span">
-									<p>
-										<strong>Telescope</strong> {{plan.rt}}
-									</p>
-								</div>
-								<div class="span">
-									<p>
-										<strong>Exposure time</strong> {{plan.opInfo.exposure}} s
-									</p>
-								</div>
-								<div class="span">
-									<p>
-										<strong>Filter</strong> {{plan.opInfo.filter}}
-									</p>
-								</div>
-								<div align="right" class="span2">
-									<p>
-										<strong>Updated</strong> {{plan.lastDate | date: medium}}
-									</p>
-								</div>
-							</div>
-							<ul class="thumbnails">
-								<li ng-repeat="result in plan.results" class="span3"
-									style="margin-bottom: 0px; margin-top: 15px">
-									<div class="experiment-banner pcard">
-										<a ng-href="{{result.images[0].url}}" target="_blank"><img
-											ng-src="{{result.images[0].url}}"></a>
+								
+									<div class="span6" ng-show="plan.score != null" style="float:right">
+										<p>
+											<strong>{{'completed.score'|i18n}}</strong> {{plan.score}}
+										</p>
 									</div>
-								</li>
-							</ul>
+								
+								<div class="span6" ng-show="plan.score == null && (plan.stateInfo.state == 'DONE_COMPLETE' ||  plan.stateInfo.state == 'DONE_PARTIAL')" style="float:right">
+								<p>{{'completed.pleaseRate'|i18n}}</p>
+								<p>
+									<form>
+										<input type="radio" ng-model="myForm.rate" value="1">1
+										<input type="radio" ng-model="myForm.rate" value="2">2
+										<input type="radio" ng-model="myForm.rate" value="3">3
+										<input type="radio" ng-model="myForm.rate" value="4">4
+										<input type="radio" ng-model="myForm.rate" value="5">5
+										<input type="radio" ng-model="myForm.rate" value="6">6
+										<input type="radio" ng-model="myForm.rate" value="7">7
+										<input type="radio" ng-model="myForm.rate" value="8">8
+										<input type="radio" ng-model="myForm.rate" value="9">9
+										<input type="radio" ng-model="myForm.rate" value="10">10
+										<button type="submit" class="btn" ng-click="rateObservation(plan.uuid,myForm.rate);plan.score=myForm.rate">{{'completed.evalue'|i18n}}</button>
+									</form>	
+		
+								</p>
+								</div>
+								
+								<div class="span6">
+									<p>
+										<strong>{{'completed.state'|i18n}}</strong>
+											<font ng-switch="plan.stateInfo.state">
+											    <font ng-switch-when="REJECTED" >{{'completed.rejected'|i18n}}</font>
+											    <font ng-switch-when="DONE_COMPLETE">{{'completed.done_complete'|i18n}}</font>
+											    <font ng-switch-when="ERROR">{{'completed.error'|i18n}}</font>
+											    <font ng-switch-when="ABORTED">{{'completed.aborted'|i18n}}</font>
+											    <font ng-switch-when="CANCELLED">{{'completed.cancelled'|i18n}}</font>
+											    <font ng-switch-when="DONE">{{'completed.done'|i18n}}</font>
+											    <font ng-switch-when="DONE_PARTIAL">{{'completed.done_partial'|i18n}}</font>
+											 </font>
+										<br/>
+									{{plan.stateInfo.stateDetail}}
+									</p>
+								</div>
+								<div class="span6">
+									<p>
+										<strong>{{'completed.comment'|i18n}}</strong> {{plan.comment}}
+									</p>
+								</div>
+								<div class="span6">
+								<p>
+									<strong>{{'completed.planId'|i18n}}</strong> {{plan.uuid}}
+									<input type="hidden" name="planuuid" id="planuuid"/>
+								</p>
+								</div>
+								
+								
+								
+								
+							</div>
+							</div>
+						
+						<div ng-show="plan.observations.length > 0" style="float:left;margin-left: 20px;">
+						<div style="width:100%;color:#CCCCCC;font-size:14px;margin-bottom:10px;border-bottom: 1px dashed rgba(125, 125, 125, 0.94);">{{'completed.obsList'|i18n}}</div>
+						<div ng-repeat="observation in plan.observations">
+							
+							<div>
+									<div class="span3">
+										<p>
+											<strong>{{'completed.object'|i18n}}</strong> {{observation.target}}<br/>
+										</p>
+									</div>
+									
+									<div class="span2">
+										<p>
+											<strong>{{'completed.filter'|i18n}}</strong> {{observation.filter}}<br/>
+										</p>
+									</div>
+									<div class="span2">
+										<p>
+											<strong>{{'completed.telescope'|i18n}}</strong> {{observation.telescope}}
+										</p>
+									</div>
+									<div class="span2">
+										<p>
+											<strong>{{'completed.state'|i18n}}</strong> 
+												<font ng-switch="observation.state">
+												    <font ng-switch-when="REJECTED" >{{'completed.rejected'|i18n}}</font>
+												    <font ng-switch-when="DONE_COMPLETE">{{'completed.done_complete'|i18n}}</font>
+												    <font ng-switch-when="ERROR">{{'completed.error'|i18n}}</font>
+												    <font ng-switch-when="ABORTED">{{'completed.aborted'|i18n}}</font>
+												    <font ng-switch-when="CANCELLED">{{'completed.cancelled'|i18n}}</font>
+												    <font ng-switch-when="DONE">{{'completed.done'|i18n}}</font>
+												    <font ng-switch-when="DONE_PARTIAL">{{'completed.done_partial'|i18n}}</font>
+												 </font>
+										</p>
+									</div>
+								
+							</div>	
+								
 						</div>
-					</div>
+						</div>
+						</div>
+					
+				
+						<div ng-show="plan.stateInfo.state == 'DONE_COMPLETE' || plan.stateInfo.state == 'DONE_PARTIAL'" align=center style="width: 30%; margin-left: 5%;margin-top: 5%;" class="animate-show alert alert-g">
+							<button type="submit" class="btn btn-reg" ng-click="getImages(plan.uuid)">{{'completed.getImgs'|i18n}}</button>
+							<div ng-show="uuid==plan.uuid">
+								
+							<ul class="thumbnails">
+									<li ng-repeat="images in imgList | filter:'JPG'" class="span3" style="margin-bottom: 0px; margin-top: 15px">
+										<div class="experiment-banner pcard">
+											<a ng-href="{{images}}" target="_blank"><img ng-src="{{images}}"/></a>
+										</div><br/>
+										<div class="experiment-banner pcard" style="float:right;">
+											<a ng-href="{{images.replace('JPG','FITS')}}" target="_blank">Download FITS</a>
+										</div>
+										<br/>
+									</li>
+									
+							</ul>
+							</div>
+						</div>
+				<br/>
+				</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+function alertMsg(){
+	alert($scope.completed.state);
+}
+</script>
